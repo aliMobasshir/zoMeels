@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate,useLocation } from "react-router-dom";
-import axios from "axios";
+import api from "../../lib/api";
 
 const UserRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,12 +17,10 @@ const UserRegister = () => {
     const password = e.target.password.value;
 
     try {
-    const response =  await axios.post("http://localhost:3000/api/auth/user/register", {
+    const response =  await api.post("/api/auth/user/register", {
         fullname,
         email,
         password,
-      },{
-        withCredentials : true
       });
 
       navigate("/");

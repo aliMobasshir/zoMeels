@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../lib/api";
 import FeedStatus from "./components/FeedStatus";
 import ReelFeed from "./components/ReelFeed";
 
-const FEED_ENDPOINT = "http://localhost:3000/api/food/saved";
+const FEED_ENDPOINT = "/api/food/saved";
 
 function normalizeSavedFoods(savedVideos) {
   return (savedVideos ?? [])
@@ -18,11 +18,7 @@ const Saved = () => {
 
   async function likeVideo(item) {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/food/like",
-        { foodId: item._id },
-        { withCredentials: true }
-      );
+      const response = await api.post("/api/food/like", { foodId: item._id });
 
       if (response.data.like) {
         console.log("video liked");
@@ -48,11 +44,7 @@ const Saved = () => {
 
   async function saveVideo(item) {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/food/save",
-        { foodId: item._id },
-        { withCredentials: true }
-      );
+      const response = await api.post("/api/food/save", { foodId: item._id });
 
       console.log("Save response data:", response.data);
 
@@ -75,9 +67,7 @@ const Saved = () => {
   useEffect(() => {
     const fetchFoodItems = async () => {
       try {
-        const response = await axios.get(FEED_ENDPOINT, {
-          withCredentials: true,
-        });
+        const response = await api.get(FEED_ENDPOINT);
 
         setFoodItems(normalizeSavedFoods(response.data?.savedVideos));
         setError("");

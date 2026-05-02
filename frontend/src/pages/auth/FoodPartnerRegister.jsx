@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"
-import axios from "axios";
+import api from "../../lib/api";
 
 const FoodPartnerRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,15 +20,13 @@ const FoodPartnerRegister = () => {
     const address = e.target.address.value;
 
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/foodPartner/register",{
+      const response = await api.post("/api/auth/foodPartner/register",{
       name,
       email,
       password,
       contactName,
       phone,
       address
-    },{
-      withCredentials : true
     })
 
      const foodPartnerId = response.data.foodPartner?._id;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import api from "../../lib/api";
 import { useNavigate } from "react-router-dom";
 
 const UserLogin = () => {
@@ -13,11 +13,9 @@ const UserLogin = () => {
    const password = e.target.password.value;
 
    try {
-   const response = await axios.post("http://localhost:3000/api/auth/user/login",{
+   const response = await api.post("/api/auth/user/login",{
     email,
     password
-   },{
-    withCredentials : true 
    });
 
    navigate("/");

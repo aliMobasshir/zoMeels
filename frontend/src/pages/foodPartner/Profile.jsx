@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../lib/api";
 
 function useSystemTheme() {
   const mq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -34,12 +34,8 @@ const Profile = () => {
     setLoading(true);
 
     Promise.allSettled([
-      axios.get(`http://localhost:3000/api/foodPartner/${id}`, {
-        withCredentials: true,
-      }),
-      axios.get("http://localhost:3000/api/foodPartner/me", {
-        withCredentials: true,
-      }),
+      api.get(`/api/foodPartner/${id}`),
+      api.get("/api/foodPartner/me"),
     ])
       .then(([profileResult, viewerResult]) => {
         if (profileResult.status === "rejected") {

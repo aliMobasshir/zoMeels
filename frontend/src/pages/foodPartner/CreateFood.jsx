@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios"
+import api from "../../lib/api"
 import { useNavigate } from "react-router-dom";
 
 function useSystemTheme() {
@@ -33,9 +33,7 @@ const CreateFood = () => {
     formData.append("video", e.target.video.files[0]); 
 
     try {
-      const response = await axios.post("http://localhost:3000/api/food/", formData, {
-        withCredentials: true
-      });
+      const response = await api.post("/api/food/", formData);
       console.log("Food item created successfully");
       const foodPartnerId = response.data.food.foodPartner;
       navigate(`/foodPartner/${foodPartnerId}`)
