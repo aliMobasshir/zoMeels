@@ -141,7 +141,7 @@ function ReelFeed({ foodItems, onLike, onSave }) {
 
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-black">
-      <main className="flex-1 overflow-y-auto snap-y snap-mandatory bg-black [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+      <main className="flex-1 overflow-y-auto snap-y snap-mandatory bg-black pb-16 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {foodItems.map((foodItem, index) => {
           const partnerId =
             typeof foodItem.foodPartner === "object"
@@ -151,7 +151,7 @@ function ReelFeed({ foodItems, onLike, onSave }) {
           return (
             <section
               key={foodItem._id ?? index}
-              className="relative flex h-[calc(100dvh-5rem)] snap-start snap-always items-center justify-center overflow-hidden bg-neutral-950 px-4 py-3 pb-20 lg:h-[calc(100dvh-4rem)] lg:px-8 lg:pb-3"
+              className="relative flex h-[calc(100dvh-4rem)] snap-start snap-always items-center justify-center overflow-hidden bg-neutral-950 px-4 py-3 lg:h-[calc(100dvh-4rem)] lg:px-8 lg:pb-3"
             >
               <div className="flex h-full w-full max-w-7xl items-center justify-center gap-6 lg:-translate-x-12 xl:-translate-x-16 xl:gap-10">
                 <div className="hidden lg:flex lg:w-[280px] xl:w-[340px] lg:justify-end">
@@ -286,7 +286,7 @@ function ReelFeed({ foodItems, onLike, onSave }) {
         })}
       </main>
 
-      <nav className="sticky bottom-0 z-30 flex h-20 items-center justify-around border-t border-white/10 bg-black/70 px-8 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] backdrop-blur-md">
+      <nav className="fixed inset-x-0 bottom-0 z-30 flex h-16 items-center justify-around border-t border-white/10 bg-black px-8 backdrop-blur-md">
       <Link to={"/"}>
         <button
           type="button"
