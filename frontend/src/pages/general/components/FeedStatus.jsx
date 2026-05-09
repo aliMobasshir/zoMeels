@@ -1,7 +1,7 @@
 import React from "react";
-import { Link, Links } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function FeedStatus({ title, message, compact = false }) {
+function FeedStatus({ title, message, compact = false, showLogin = false }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-neutral-950 px-6 text-center text-white">
       <div
@@ -13,12 +13,13 @@ function FeedStatus({ title, message, compact = false }) {
       >
         <p className="text-lg font-semibold">{title}</p>
         <p className="mt-2 text-sm leading-6 text-white/70">{message}</p>
-         <Link to={"/user/login"}>
-            
+        {showLogin ? (
+          <Link to="/user/login">
             <button className="bg-red-400 text-black px-3 py-1 mt-2 rounded-xl cursor-pointer text-md font-semibold">
               Login
             </button>
-            </Link>
+          </Link>
+        ) : null}
       </div>
     </div>
   );

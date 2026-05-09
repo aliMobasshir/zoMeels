@@ -1,12 +1,40 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-const overlayDescriptionStyle = {
+const collapsedDescriptionStyle = {
   display: "-webkit-box",
   overflow: "hidden",
   WebkitBoxOrient: "vertical",
   WebkitLineClamp: 2,
 };
+
+function DescriptionBlock({ description, className = "" }) {
+  const [expanded, setExpanded] = useState(false);
+  const text =
+    description || "Freshly uploaded food reel from one of our partners.";
+  const shouldShowToggle = text.length > 120;
+
+  return (
+    <div className={className}>
+      <p
+        className="text-sm leading-6 text-white/90 sm:text-base"
+        style={expanded ? undefined : collapsedDescriptionStyle}
+      >
+        {text}
+      </p>
+
+      {shouldShowToggle ? (
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/75 transition hover:text-white"
+        >
+          {expanded ? "Show less" : "Read more"}
+        </button>
+      ) : null}
+    </div>
+  );
+}
 
 const HeartIcon = () => (
   <svg
@@ -112,7 +140,7 @@ function ReelFeed({ foodItems, onLike, onSave }) {
   }, [foodItems]);
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-black">
+    <div className="flex h-[100dvh] flex-col overflow-hidden bg-black">
       <main className="flex-1 overflow-y-auto snap-y snap-mandatory bg-black [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {foodItems.map((foodItem, index) => {
           const partnerId =
@@ -123,7 +151,7 @@ function ReelFeed({ foodItems, onLike, onSave }) {
           return (
             <section
               key={foodItem._id ?? index}
-              className="relative flex h-[calc(100vh-4rem)] snap-start snap-always items-center justify-center overflow-hidden bg-neutral-950 px-4 py-3 lg:px-8"
+              className="relative flex h-[calc(100dvh-5rem)] snap-start snap-always items-center justify-center overflow-hidden bg-neutral-950 px-4 py-3 pb-20 lg:h-[calc(100dvh-4rem)] lg:px-8 lg:pb-3"
             >
               <div className="flex h-full w-full max-w-7xl items-center justify-center gap-6 lg:-translate-x-12 xl:-translate-x-16 xl:gap-10">
                 <div className="hidden lg:flex lg:w-[280px] xl:w-[340px] lg:justify-end">
@@ -132,13 +160,10 @@ function ReelFeed({ foodItems, onLike, onSave }) {
                       {foodItem.name || "Featured Store"}
                     </p>
 
-                    <p
-                      className="mb-5 text-sm leading-6 text-white/90"
-                      style={overlayDescriptionStyle}
-                    >
-                      {foodItem.description ||
-                        "Freshly uploaded food reel from one of our partners."}
-                    </p>
+                    <DescriptionBlock
+                      description={foodItem.description}
+                      className="mb-5"
+                    />
 
                     {partnerId ? (
                       <Link to={`/foodPartner/${partnerId}`}>
@@ -169,7 +194,7 @@ function ReelFeed({ foodItems, onLike, onSave }) {
 
                   <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-black/30 via-transparent to-black/80 lg:bg-linear-to-t lg:from-black/70 lg:via-transparent lg:to-transparent" />
 
-                  <div className="absolute right-4 bottom-28 z-20 flex flex-col items-center gap-5 lg:hidden">
+                  <div className="absolute right-4 bottom-32 z-20 flex flex-col items-center gap-5 lg:hidden">
                     <button
                       type="button"
                       onClick={() => onLike(foodItem)}
@@ -205,13 +230,10 @@ function ReelFeed({ foodItems, onLike, onSave }) {
                         {foodItem.name || "Featured Store"}
                       </p>
 
-                      <p
-                        className="mb-4 text-sm leading-6 text-white/90 sm:text-base"
-                        style={overlayDescriptionStyle}
-                      >
-                        {foodItem.description ||
-                          "Freshly uploaded food reel from one of our partners."}
-                      </p>
+                      <DescriptionBlock
+                        description={foodItem.description}
+                        className="mb-4"
+                      />
 
                       {partnerId ? (
                         <Link to={`/foodPartner/${partnerId}`}>
@@ -264,7 +286,7 @@ function ReelFeed({ foodItems, onLike, onSave }) {
         })}
       </main>
 
-      <nav className="z-30 flex h-16 items-center justify-around border-t border-white/10 bg-black/30 px-8 backdrop-blur-md">
+      <nav className="sticky bottom-0 z-30 flex h-20 items-center justify-around border-t border-white/10 bg-black/70 px-8 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] backdrop-blur-md">
       <Link to={"/"}>
         <button
           type="button"

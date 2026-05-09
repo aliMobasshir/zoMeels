@@ -97,7 +97,13 @@ const Home = () => {
   }
 
   if (error) {
-    return <FeedStatus title="Feed unavailable" message={error} />;
+    return (
+      <FeedStatus
+        title="Feed unavailable"
+        message={error}
+        showLogin={error.includes("Please login")}
+      />
+    );
    
   }
 
